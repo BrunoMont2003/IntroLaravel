@@ -13,7 +13,7 @@
                 @foreach ($resumes as $resume)
                     <tr>
                         <td>
-                            <a href="{{ route('resumes.show', $resume->id) }}">
+                            <a class="link-dark text-decoration-none" href="{{ route('resumes.show', $resume->id) }}">
                                 {{ $resume->title }}
                             </a>
                         </td>

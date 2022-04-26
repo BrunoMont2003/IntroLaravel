@@ -28,3 +28,4 @@ Route::get('/resumes', [ResumeController::class, "index"])->name('resumes.index'
 Route::get('/resumes/{resume}/edit', [ResumeController::class, "edit"])->name('resumes.edit');
 Route::delete('/resumes/{resume}', [ResumeController::class, "destroy"])->name('resumes.destroy');
 Route::get('/resumes/{resume}', [ResumeController::class, "show"])->name('resumes.show');
+Route::put('/resumes/{resume}', [ResumeController::class, "update"])->name('resumes.update');
