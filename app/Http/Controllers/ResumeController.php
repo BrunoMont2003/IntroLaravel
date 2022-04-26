@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class ResumeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,8 @@ class ResumeController extends Controller
      */
     public function index()
     {
-        //
+        $resumes = auth()->user()->resumes;
+        return view("resumes.index", compact('resumes'));
     }
 
     /**
@@ -36,7 +41,15 @@ class ResumeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = auth()->user();
+        $resume = $user->resumes()->create(
+            [
+                "title" => $request["title"],
+                "name" => $user->name,
+                "email" => $user->email,
+            ]
+        );
+        return redirect()->route("resumes.index");
     }
 
     /**
