@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Resume;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ResumeController extends Controller
 {
@@ -42,6 +43,11 @@ class ResumeController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
+        $resume = $user->resumes()->where("title", $request->title)->first();
+        if ($resume) {
+            return back()->withErrors(["title" => "You already have  resume with this title"])
+                ->withInput(["title" => $request->title]);
+        }
         $resume = $user->resumes()->create(
             [
                 "title" => $request["title"],
@@ -60,7 +66,7 @@ class ResumeController extends Controller
      */
     public function show(Resume $resume)
     {
-        //
+        dd($resume->title);
     }
 
     /**
@@ -71,7 +77,8 @@ class ResumeController extends Controller
      */
     public function edit(Resume $resume)
     {
-        //
+
+        return view('resumes.edit', compact('resume'));
     }
 
     /**
@@ -83,7 +90,16 @@ class ResumeController extends Controller
      */
     public function update(Request $request, Resume $resume)
     {
-        //
+        $data = $request->validate([
+            'email' => 'required|email',
+            'website' => 'nullable|url',
+            'picture' => 'nullable|image',
+            'about' => 'nullable|string',
+            'title' => Rule::unique("resumes")->where(function ($query) use ($resume) {
+                return $query->where("user_id", $resume->user->id);
+            })->ignore($resume->id)
+        ]);
+        dd($data);
     }
 
     /**
