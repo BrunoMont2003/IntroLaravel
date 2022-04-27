@@ -27,7 +27,11 @@
                         </td>
                         <td class="d-flex justify-content-end gap-4">
                             <a href="{{ route('resumes.edit', $resume->id) }}" class="btn btn-primary">EDIT</a>
-                            <a href="{{ route('resumes.destroy', $resume->id) }}" class="btn btn-danger">DELETE</a>
+                            <form method="POST" action="{{ route('resumes.destroy', $resume->id) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">DELETE</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
