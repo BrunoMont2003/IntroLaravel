@@ -66,7 +66,7 @@ class ResumeController extends Controller
      */
     public function show(Resume $resume)
     {
-        dd($resume->title);
+        return view("resumes.show", compact('resume'));
     }
 
     /**
@@ -98,9 +98,9 @@ class ResumeController extends Controller
             'title' => Rule::unique("resumes")->where(fn ($query) => $query->where("user_id", $resume->user->id))->ignore($resume->id)
         ]);
         if (array_key_exists('picture', $data)) {
-            $picture = $data["picture"]->store("picture", "public");
+            $picture = $data["picture"]->store("pictures", "public");
             Image::make(public_path("storage/$picture"))->fit(800, 800)->save();
-            $data["picture"] = $picture;
+            $data["picture"] = "/storage/$picture";
         }
 
         $resume->update($data);
