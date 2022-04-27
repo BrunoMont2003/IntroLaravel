@@ -77,7 +77,7 @@ class ResumeController extends Controller
      */
     public function edit(Resume $resume)
     {
-
+        $this->authorize("update", $resume);
         return view('resumes.edit', compact('resume'));
     }
 
@@ -115,6 +115,8 @@ class ResumeController extends Controller
      */
     public function destroy(Resume $resume)
     {
-        //
+        $this->authorize("delete", $resume);
+        $resume->delete();
+        return redirect()->route("resumes.index")->with('alert', ["type" => "danger", "message" => "Resume $resume->title deleted successfully"]);
     }
 }
