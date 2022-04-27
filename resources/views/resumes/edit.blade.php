@@ -93,9 +93,10 @@
                                 <label for="about" class="col-md-4 col-form-label text-md-end">{{ __('About') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea id="about" class="form-control @error('about') is-invalid @enderror" name="about"
-                                        value="{{ old('about') ?? $resume->about }}" autocomplete="about" autofocus>
-                                        </textarea>
+                                    <textarea id="about" class="form-control @error('about') is-invalid @enderror" name="about" autocomplete="about"
+                                        autofocus>
+                                        {{ old('about') ?? trim($resume->about) }}
+                                    </textarea>
 
                                     @error('about')
                                         <span class="invalid-feedback" role="alert">
